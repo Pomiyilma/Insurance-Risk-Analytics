@@ -11,3 +11,4 @@ shap
 pytest
 flake8
 ipykernel
+dvc
