@@ -11,5 +11,3 @@ def plot_boxplot(df, column):
     plt.title(f"Boxplot of {column}")
 
     plt.show()
-
-    
