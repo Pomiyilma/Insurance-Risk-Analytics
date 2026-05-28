@@ -1,31 +1,74 @@
-# Insurance Risk Analytics
+# Insurance Risk Analytics & Pricing System
 
-An end-to-end insurance risk analytics and machine learning project focused on exploratory data analysis, reproducible data pipelines, and predictive insurance insights using Python, GitHub Actions, and DVC.
+## Project Overview
+
+This project develops a complete analytics-driven insurance risk modeling pipeline for AlphaCare Insurance Solutions (ACIS), a South African auto-insurance company preparing for aggressive growth and modernization of its pricing strategy.
+
+The objective is to transition from intuition-based insurance pricing toward evidence-based, risk-adjusted premium optimization using statistical analysis and machine learning.
+
+The project covers:
+
+* Exploratory Data Analysis (EDA)
+* Statistical Hypothesis Testing
+* Predictive Modeling
+* Risk-Based Pricing
+* Explainable AI (SHAP)
+* Data Version Control (DVC)
+* CI/CD Automation with GitHub Actions
 
 ---
 
-# Project Overview
+# Business Problem
 
-This project simulates a real-world insurance analytics workflow where data science and machine learning are used to analyze insurance risk, claims behavior, customer profitability, and policy trends.
+Traditional insurance pricing approaches often rely heavily on manual assumptions and generalized customer segmentation.
 
-The project follows professional ML engineering practices including:
-- Git/GitHub workflow
-- Branch-based development
-- CI/CD automation
-- Data Version Control (DVC)
-- Reproducible analytics pipelines
-- Exploratory Data Analysis (EDA)
-- Modular Python utilities
+This project aims to identify statistically significant risk drivers and build predictive models capable of:
+
+* estimating insurance claim severity,
+* predicting claim occurrence probability,
+* identifying high-risk and low-risk customer segments,
+* supporting dynamic premium optimization.
+
+Two core business metrics were central throughout the analysis:
+
+### Loss Ratio
+
+Loss Ratio = TotalClaims / TotalPremium
+
+Measures how much of collected premium is consumed by claims.
+
+### Margin
+
+Margin = TotalPremium − TotalClaims
+
+Measures insurer profitability after claims are paid.
 
 ---
 
-# Objectives
+# Dataset
 
-- Analyze insurance policy and claims data
-- Understand profitability and risk behavior
-- Build reproducible ML/data workflows
-- Track dataset versions using DVC
-- Prepare the foundation for hypothesis testing and machine learning modeling
+The project uses an 18-month historical insurance claims dataset containing:
+
+* Customer demographics
+* Vehicle information
+* Policy characteristics
+* Geographic information
+* Claims history
+* Premium values
+* Financial risk indicators
+
+Key variables include:
+
+* TotalPremium
+* TotalClaims
+* ClaimAmount
+* RiskScore
+* VehicleType
+* Province
+* AutoMake
+* CoverType
+* ZipCode
+* Gender
 
 ---
 
@@ -42,221 +85,309 @@ insurance-risk-analytics/
 │   ├── 02_hypothesis_testing.ipynb
 │   └── 03_modeling.ipynb
 ├── src/
-│   ├── __init__.py
 │   ├── data_loader.py
 │   ├── eda_utils.py
 │   ├── hypothesis_tests.py
 │   └── modeling.py
 ├── reports/
-│   └── final_report.md
 ├── tests/
-├── .dvc/
-├── .gitignore
-├── dvc.yaml
 ├── requirements.txt
+├── dvc.yaml
 └── README.md
 ```
 
 ---
 
-# Task 1 — Git, GitHub & Exploratory Data Analysis
+# Task 1 — Exploratory Data Analysis (EDA)
 
-## Completed Work
+## Objectives
 
-### Repository & Development Setup
-- Created GitHub repository
-- Configured Python virtual environment
-- Added `.gitignore`
-- Added `requirements.txt`
-- Structured project directories professionally
+* Understand portfolio risk patterns
+* Assess data quality
+* Explore profitability drivers
+* Identify geographic and demographic trends
 
-### CI/CD Pipeline
-Implemented GitHub Actions workflow to:
-- install dependencies
-- run flake8 linting
-- run pytest automatically on every push
+## Completed Analysis
 
-### Exploratory Data Analysis (EDA)
-Performed comprehensive EDA including:
+### Data Summarization
 
-#### Data Understanding
-- Dataset inspection
-- Data type validation
-- Descriptive statistics
-- Datetime conversion
+* Reviewed data types
+* Generated descriptive statistics
+* Analyzed distributions of numerical variables
 
-#### Data Quality Assessment
-- Missing value analysis
-- Dataset consistency checks
+### Data Quality Assessment
 
-#### Univariate Analysis
-- Histograms for financial variables
-- Distribution analysis
-- Categorical count plots
+* Checked for missing values
+* Validated feature consistency
+* Confirmed categorical and numerical feature structure
 
-#### Bivariate & Multivariate Analysis
-- Correlation analysis
-- Scatter plots
-- Premium vs claims relationships
+### Univariate Analysis
 
-#### Geographic Analysis
-- Province-based comparisons
-- Auto make trends across regions
-- Cover type analysis
+* Histograms for financial variables
+* Bar charts for categorical features
+* Distribution analysis for claims and premiums
 
-#### Outlier Detection
-- Boxplot analysis
-- Extreme claims detection
-- Financial outlier identification
+### Bivariate & Multivariate Analysis
 
-#### Business Insights
-Analyzed:
-- Loss Ratio
-- Claims trends
-- Vehicle risk patterns
-- Temporal insurance behavior
-- Customer profitability indicators
+* Examined TotalPremium vs TotalClaims relationships
+* Correlation analysis
+* Risk comparisons by ZipCode and Province
+
+### Geographic Trends
+
+* Compared:
+
+  * CoverType
+  * AutoMake
+  * Premium behavior
+    across provinces
+
+### Outlier Detection
+
+* Boxplots used to detect extreme values in:
+
+  * TotalClaims
+  * CustomValueEstimate
+  * Premium variables
 
 ---
 
-# Key Metric
+# Key EDA Findings
 
-## Loss Ratio
+## Loss Ratio Trends
 
-```math
-Loss Ratio = TotalClaims / TotalPremium
-```
+* Loss ratios varied moderately across provinces and vehicle groups.
+* Some zip codes exhibited noticeably lower margins and higher loss ratios.
 
-This metric measures insurance profitability and risk exposure.
+## Vehicle Risk Insights
+
+Higher claim amounts were associated with:
+
+* Luxury vehicles
+* Certain high-value vehicle brands
+* Customers with higher historical risk scores
+
+## Temporal Patterns
+
+Claim frequency and severity showed moderate fluctuations across the 18-month period.
+
+## Financial Distributions
+
+Several financial variables exhibited right-skewed distributions and contained outliers typical of insurance claims datasets.
 
 ---
 
 # Task 2 — Data Version Control (DVC)
 
+## Objectives
+
+Establish a reproducible and auditable data pipeline suitable for regulated insurance analytics environments.
+
 ## Completed Work
 
-### DVC Setup
-- Installed and initialized DVC
-- Configured local DVC remote storage
-- Integrated DVC with Git workflow
+* Installed and configured DVC
+* Initialized DVC repository
+* Configured local remote storage
+* Tracked datasets using `.dvc` files
+* Created dataset versions for reproducibility
 
-### Dataset Versioning
-Tracked:
-- Raw insurance dataset
-- Cleaned insurance dataset
+## Importance
 
-using DVC metadata and remote storage.
+DVC ensures:
 
-### Reproducibility
-Implemented reproducible data versioning workflow allowing:
-- dataset recovery
-- dataset history tracking
-- experiment reproducibility
-- auditable ML pipelines
+* reproducibility,
+* traceability,
+* auditability,
+* consistent experimentation.
+
+This is especially critical in regulated industries such as insurance and finance.
+
+---
+
+# Task 3 — Statistical Hypothesis Testing
+
+## Objectives
+
+Statistically validate whether observed customer risk differences are significant.
+
+## Tested Hypotheses
+
+1. No risk difference across provinces
+2. No risk difference between zip codes
+3. No margin difference between zip codes
+4. No significant risk difference between women and men
+
+## Statistical Methods
+
+* Chi-Square Test of Independence
+* Independent Two-Sample T-Test
+
+## Key Findings
+
+### Province Risk Difference
+
+No statistically significant claim frequency difference was found between Addis Ababa and Oromia.
+
+### ZipCode Risk Difference
+
+Claim severity differences between major zip codes were relatively small.
+
+### Margin Differences
+
+Certain zip codes showed stronger margin variation, suggesting potential pricing optimization opportunities.
+
+### Gender Risk Difference
+
+Claim frequency differences between male and female policyholders were negligible.
+
+## Business Insight
+
+The analysis demonstrated that some intuitive segmentation assumptions are not statistically supported, emphasizing the importance of evidence-based pricing decisions.
+
+---
+
+# Task 4 — Statistical Modeling & Risk-Based Pricing
+
+## Objectives
+
+Develop predictive models capable of:
+
+* estimating claim severity,
+* supporting dynamic premium optimization,
+* identifying major drivers of insurance risk.
+
+---
+
+# Machine Learning Models
+
+The following algorithms were implemented:
+
+| Model             | RMSE    | R²     |
+| ----------------- | ------- | ------ |
+| Linear Regression | 5284.27 | 0.2105 |
+| Random Forest     | 5436.32 | 0.1644 |
+| XGBoost           | 5704.43 | 0.0800 |
+
+## Best Performing Model
+
+Linear Regression achieved the strongest performance on this dataset.
+
+---
+
+# Feature Engineering
+
+Engineered features included:
+
+* VehicleAge
+* Margin
+* ClaimFrequency
+
+Categorical features were encoded using One-Hot Encoding.
+
+---
+
+# Explainable AI (SHAP)
+
+SHAP was used to identify the most influential claim severity drivers.
+
+## Top Influential Features
+
+| Feature                 | Importance |
+| ----------------------- | ---------- |
+| RiskScore               | 1926.08    |
+| VehicleType_Luxury      | 597.93     |
+| VehicleType_Sedan       | 448.02     |
+| PastClaims              | 358.50     |
+| VehicleType_Hatchback   | 287.06     |
+| NCD                     | 282.22     |
+| Age                     | 264.75     |
+| Province_Addis Ababa    | 231.73     |
+| AutoMake_Mercedes-Benz  | 229.67     |
+| CoverType_Comprehensive | 214.43     |
+
+## Business Interpretation
+
+The analysis suggests that:
+
+* RiskScore is the strongest driver of claim severity.
+* Luxury vehicles significantly increase predicted claim amounts.
+* Previous claims history strongly influences future claim risk.
+* Certain geographic regions and premium cover types contribute meaningfully to claim behavior.
+
+---
+
+# Claim Probability Classification
+
+A Logistic Regression classifier was implemented to estimate claim occurrence probability.
+
+## Classification Performance
+
+| Metric    | Score |
+| --------- | ----- |
+| Accuracy  | 0.857 |
+| Precision | 0.566 |
+| Recall    | 0.228 |
+| F1 Score  | 0.325 |
+
+This classification framework supports future implementation of dynamic premium estimation.
+
+---
+
+# Risk-Based Pricing Framework
+
+The project supports a pricing framework based on:
+
+Premium = (P(claim) × Predicted Severity) + Expense Loading + Profit Margin
+
+This enables:
+
+* personalized pricing,
+* analytics-driven underwriting,
+* improved profitability management,
+* more competitive customer segmentation.
+
+---
+
+# Reproducibility & Automation
+
+## CI/CD
+
+GitHub Actions automatically:
+
+* runs validation checks,
+* verifies pipeline integrity,
+* supports reproducible development.
+
+## DVC
+
+DVC tracks dataset versions and supports reproducible experimentation workflows.
 
 ---
 
 # Technologies Used
 
-- Python
-- Pandas
-- NumPy
-- Matplotlib
-- Seaborn
-- Scikit-learn
-- XGBoost
-- SHAP
-- Git
-- GitHub
-- GitHub Actions
-- DVC
-- Jupyter Notebook
+* Python
+* Pandas
+* NumPy
+* Scikit-learn
+* XGBoost
+* SHAP
+* Matplotlib
+* Seaborn
+* DVC
+* GitHub Actions
 
 ---
 
-# How to Run the Project
+# Conclusion
 
-## 1. Clone Repository
+This project demonstrates a complete end-to-end insurance analytics workflow combining:
 
-```bash
-git clone <your-repository-url>
-cd insurance-risk-analytics
-```
+* exploratory analytics,
+* statistical inference,
+* predictive modeling,
+* explainable AI,
+* reproducibility engineering,
+* and business-focused pricing strategy.
 
----
-
-## 2. Create Virtual Environment
-
-### Windows
-
-```bash
-python -m venv venv
-venv\Scripts\activate
-```
-
----
-
-## 3. Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-## 4. Pull DVC Tracked Data
-
-```bash
-dvc pull
-```
-
----
-
-## 5. Launch Jupyter Notebook
-
-```bash
-jupyter notebook
-```
-
----
-
-# DVC Workflow
-
-## Add Dataset
-
-```bash
-dvc add data/insurance_data.csv
-```
-
-## Push Dataset to Remote Storage
-
-```bash
-dvc push
-```
-
-## Retrieve Dataset
-
-```bash
-dvc pull
-```
-
----
-
-# Branching Strategy
-
-- `main` → stable production-ready branch
-- `task-1` → EDA and project setup
-- `task-2` → DVC and reproducibility pipeline
-
----
-
-# Future Work
-
-Upcoming tasks include:
-- Statistical hypothesis testing
-- Machine learning modeling
-- Risk prediction
-- Explainable AI (SHAP/LIME)
-- Insurance premium optimization
-
----
+The system establishes a strong foundation for future deployment of dynamic, analytics-driven insurance pricing solutions.
